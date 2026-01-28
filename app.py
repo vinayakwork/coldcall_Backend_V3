@@ -15,6 +15,10 @@ app.add_middleware(
 class UrlRequest(BaseModel):
     url: str
 
+@app.get("/")
+def welcome():
+    print("Everything is running fine")
+
 @app.post("/analyze")
 async def analyze(req: UrlRequest):
     result = get_company_info(req.url)
