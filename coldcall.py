@@ -24,7 +24,7 @@ def get_company_info(url: str):
         - Revenue model
         - Customers
         - Use of real-time data
-        - Impact of real-time data
+        - Impact of real-time data on their business
 
         Rules:
         - Do not hallucinate
