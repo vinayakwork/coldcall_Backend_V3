@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from coldcall import get_company_info
+from coldcall import inputtooutput
 
 app = FastAPI()
 
@@ -21,5 +21,5 @@ def welcome():
 
 @app.post("/analyze")
 async def analyze(req: UrlRequest):
-    result = get_company_info(req.url)
+    result = inputtooutput(req.url)
     return {"result": result}

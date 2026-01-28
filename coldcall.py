@@ -1,6 +1,6 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 import os
-
+from condense_context import CONDENSE_CONTEXT
 llm = ChatGoogleGenerativeAI(
     model="gemini-3-pro-preview",
     temperature=0.2,
@@ -12,6 +12,17 @@ def chat_call(system_prompt, user_prompt):
         {"role": "user", "content": user_prompt}
     ])
     return response.content
+def normalize_output(output):
+    if isinstance(output, list) and output and isinstance(output[0], dict):
+        return output[0].get("text", "")
+    return str(output)
+
+def inputtooutput(url: str):
+    first = get_company_info(url)
+    clean_first = normalize_output(first)
+    condense = condenseanaylyzer(clean_first)
+    return condense
+
 
 def get_company_info(url: str):
     return chat_call(
@@ -32,3 +43,10 @@ def get_company_info(url: str):
         - Cite evidence if possible
         """
     )
+def condenseanaylyzer(output):
+  return chat_call(
+      f"You are an expert condense product fit analyzer",
+      f'''
+      I want you to analyze whether the company given in this particular {output}'s context is fit for using condense as a product {CONDENSE_CONTEXT}.
+      '''
+  )
