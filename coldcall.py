@@ -21,7 +21,11 @@ def inputtooutput(url: str):
     first = get_company_info(url)
     clean_first = normalize_output(first)
     condense = condenseanaylyzer(clean_first)
-    return condense
+    return {
+        "input_url": url,
+        "company_analysis": first,
+        "condense_analysis": condense
+    }
 
 
 def get_company_info(url: str):
