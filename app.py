@@ -17,7 +17,7 @@ class UrlRequest(BaseModel):
 
 @app.get("/")
 def welcome():
-    print("Everything is running fine")
+    return {"status":"Everything is running fine"}
 
 @app.post("/analyze")
 async def analyze(req: UrlRequest):
