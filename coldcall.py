@@ -1,9 +1,12 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 import os
 from condense_context import CONDENSE_CONTEXT
+from dotenv import load_dotenv
+load_dotenv()
 llm = ChatGoogleGenerativeAI(
     model="gemini-3-pro-preview",
-    temperature=0.2,
+    temperature=0.2
+    
 )
 
 def chat_call(system_prompt, user_prompt):
