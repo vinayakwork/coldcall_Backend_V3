@@ -1,8 +1,8 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 import os
 from condense_context import CONDENSE_CONTEXT
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 llm = ChatGoogleGenerativeAI(
     model="gemini-3-pro-preview",
     temperature=0.2
@@ -24,10 +24,12 @@ def inputtooutput(url: str):
     first = get_company_info(url)
     clean_first = normalize_output(first)
     condense = condenseanaylyzer(clean_first)
+    sales=salesagent(condense,clean_first)
     return {
         "input_url": url,
         "company_analysis": first,
-        "condense_analysis": condense
+        "condense_analysis": condense,
+        "sales_guidance":sales
     }
 
 
@@ -57,3 +59,12 @@ def condenseanaylyzer(output):
       I want you to analyze whether the company given in this particular {output}'s context is fit for using condense as a product {CONDENSE_CONTEXT}.
       '''
   )
+def salesagent(condense,company_info):
+    return chat_call(
+        f"You are a sales guidance agent whose job is to guide the sales team on how to sell our product  condense to the customer",
+    f'''
+I want you to give some pitch ideas on how to sell our product {condense} to customers based on the company information {company_info}.
+
+   
+    '''
+    )
