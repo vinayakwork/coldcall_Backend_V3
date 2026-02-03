@@ -24,7 +24,8 @@ def chat_call(system_prompt, user_prompt):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            temperature=0.2
+            temperature=0.0,
+            max_retries=2
         )
 
         content = response.choices[0].message.content
