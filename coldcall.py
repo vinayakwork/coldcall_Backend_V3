@@ -17,31 +17,50 @@ gemini_llm = ChatGoogleGenerativeAI(
     temperature=0.2
 )
 
+def normalize_llm_output(output) -> str:
+    """
+    Converts any LLM response shape into a safe string.
+    NEVER returns None.
+    """
+    if output is None:
+        return ""
 
-def chat_call(system_prompt, user_prompt):
-    # 1️⃣ Try Groq first
+    if isinstance(output, str):
+        return output.strip()
+
+    if isinstance(output, list):
+        texts = []
+        for item in output:
+            if isinstance(item, dict) and "text" in item:
+                texts.append(item["text"])
+        return "\n".join(texts).strip()
+
+    return str(output).strip()
+
+# ---------- SINGLE ENTRY POINT ----------
+
+def chat_call(system_prompt: str, user_prompt: str) -> str:
+    # Try Groq first
     try:
         response = groq_llm.invoke([
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_prompt}
-    ])
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ])
 
-        content = response.content
-
+        content = normalize_llm_output(response.content)
         if content:
             return content
 
     except Exception as e:
-        print("⚠️ Groq failed, falling back to Gemini:", e)
+        print("Groq failed, falling back to Gemini:", e)
 
-    # 2️⃣ FALLBACK → Gemini
+    # Fallback to Gemini
     response = gemini_llm.invoke([
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_prompt}
+        {"role": "user", "content": user_prompt},
     ])
 
-    return response.content
-
+    return normalize_llm_output(response.content)
 def normalize_output(output):
     if isinstance(output, list) and output and isinstance(output[0], dict):
         return output[0].get("text", "")
