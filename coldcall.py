@@ -4,7 +4,7 @@ from condense_context import CONDENSE_CONTEXT
 # from dotenv import load_dotenv
 # load_dotenv()
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-pro",
+    model="gemini-3-flash-preview",
     temperature=0.2
     
 )
