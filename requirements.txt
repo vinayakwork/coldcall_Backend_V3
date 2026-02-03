@@ -2,3 +2,4 @@ fastapi
 langchain
 langchain-google-genai
 pydantic
+langchain-groq
