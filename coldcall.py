@@ -1,20 +1,48 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
+from groq import Groq
 import os
 from condense_context import CONDENSE_CONTEXT
-# from dotenv import load_dotenv
-# load_dotenv()
-llm = ChatGoogleGenerativeAI(
-    model="gemini-3-flash-preview",
-    temperature=0.2
-    
+
+# --- PRIMARY: GROQ ---
+groq_client = Groq(
+    api_key=os.environ.get("GROQ_API_KEY")
 )
 
+# --- FALLBACK: GEMINI ---
+gemini_llm = ChatGoogleGenerativeAI(
+    model="gemini-3-flash-preview",
+    temperature=0.2
+)
+
+
 def chat_call(system_prompt, user_prompt):
-    response = llm.invoke([
+    # 1️⃣ Try Groq first
+    try:
+        response = groq_client.chat.completions.create(
+            model="llama-3.1-70b-versatile",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            temperature=0.2
+        )
+
+        content = response.choices[0].message.content
+
+        if content:
+            return content
+
+    except Exception as e:
+        print("⚠️ Groq failed, falling back to Gemini:", e)
+
+    # 2️⃣ FALLBACK → Gemini
+    response = gemini_llm.invoke([
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt}
     ])
+
     return response.content
+
 def normalize_output(output):
     if isinstance(output, list) and output and isinstance(output[0], dict):
         return output[0].get("text", "")
