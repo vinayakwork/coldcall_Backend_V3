@@ -1,5 +1,5 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
-from groq import Groq
+# from groq import Groq
 import os
 from condense_context import CONDENSE_CONTEXT
 from langchain_groq import ChatGroq
@@ -7,8 +7,8 @@ from langchain_groq import ChatGroq
 groq_llm = ChatGroq(
     model="llama-3.1-8b-instant",
     temperature=0.0,
-    max_retries=2,
-    groq_api_key=os.environ.get("GROQ_API_KEY")
+    max_retries=2
+    # groq_api_key=os.environ.get("GROQ_API_KEY")
 )
 
 # --- FALLBACK: GEMINI ---
