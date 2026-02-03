@@ -26,7 +26,7 @@ def chat_call(system_prompt, user_prompt):
         {"role": "user", "content": user_prompt}
     ])
 
-        content = response.choices[0].message.content
+        content = response.content
 
         if content:
             return content
