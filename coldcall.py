@@ -97,6 +97,7 @@ def get_company_info(url: str):
         - Do not hallucinate
         - Be professional
         - Cite evidence if possible
+        -Keep the info as detailed as possible
         """
     )
 def condenseanaylyzer(output):
