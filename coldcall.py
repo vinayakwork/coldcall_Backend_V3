@@ -99,6 +99,7 @@ def get_company_info(url: str):
         -Keep the info as detailed as possible
         """
     )
+
 def condenseanaylyzer(output):
   return chat_call(
       f"You are an expert condense product fit analyzer",
@@ -106,6 +107,7 @@ def condenseanaylyzer(output):
       I want you to analyze whether the company given in this particular {output}'s context is fit for using condense as a product {CONDENSE_CONTEXT}.
       '''
   )
+
 def salesagent(condense,company_info):
     return chat_call(
         f"You are a sales guidance agent whose job is to guide the sales team on how to sell our product  condense to the customer",
