@@ -113,7 +113,7 @@ def salesagent(condense,company_info):
         f"You are a sales guidance agent whose job is to guide the sales team on how to sell our product  condense to the customer",
     f'''
 I want you to give some pitch ideas on how to sell our product {condense} to customers based on the company information {company_info}.
-
+And also try to give whom in that {company_info} can we sell our product with their name if possible.
    
     '''
     )
