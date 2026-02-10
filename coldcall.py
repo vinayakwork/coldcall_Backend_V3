@@ -114,6 +114,10 @@ def salesagent(condense,company_info):
     f'''
 I want you to give some pitch ideas on how to sell our product {condense} to customers based on the company information {company_info}.
 And also try to give whom in that {company_info} can we sell our product like for example to the CTO,COO or CEO like that etc ,also try to get the  name of that person from linkedin or anywhere if possible.
+Example format:
+Pitch 1: Title
+Target:like CEO,CTO etc 
+what we are going to sell/provide and how it can help them
    
     '''
     )
